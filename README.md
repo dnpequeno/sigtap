@@ -14,16 +14,6 @@ O projeto foi desenvolvido com foco em uma consulta simples e rápida, especialm
 - Possibilidade de instalação no celular como PWA
 - Funcionamento offline após o primeiro acesso
 
-## Tecnologias utilizadas
-
-- HTML
-- CSS
-- JavaScript
-- Python
-- Pandas
-- JSON
-- Progressive Web App (PWA)
-
 ## Base de dados
 
 Os dados utilizados são provenientes da tabela SIGTAP do Sistema Único de Saúde (SUS).
