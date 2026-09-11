@@ -1,0 +1,23 @@
+{
+  "name": "Pesquisa SIGTAP",
+  "short_name": "SIGTAP",
+  "description": "Consulta de procedimentos SIGTAP por código, CID ou nome",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#f3f5f7",
+  "theme_color": "#2563eb",
+  "lang": "pt-BR",
+
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

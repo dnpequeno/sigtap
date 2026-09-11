@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Pesquisa SIGTAP</title>
+
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#2563eb">
+
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="SIGTAP">
+
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            margin: 0;
+            background: #f3f5f7;
+            color: #222;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        .titulo {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .titulo h1 {
+            margin-bottom: 5px;
+        }
+
+        .titulo p {
+            color: #666;
+        }
+
+        #pesquisa {
+            width: 100%;
+            padding: 16px;
+            font-size: 18px;
+            border: 1px solid #ccc;
+            border-radius: 12px;
+            outline: none;
+        }
+
+        #pesquisa:focus {
+            border-color: #2563eb;
+        }
+
+        .cabecalho,
+        .resultado {
+            display: grid;
+            grid-template-columns: 160px 1fr;
+        }
+
+        .cabecalho {
+            margin-top: 25px;
+            padding: 12px;
+            background: #e5e7eb;
+            font-weight: bold;
+            border-radius: 10px 10px 0 0;
+        }
+
+        .resultado {
+            padding: 14px 12px;
+            background: white;
+            border-bottom: 1px solid #eee;
+        }
+
+        .codigo {
+            font-weight: bold;
+        }
+
+        .mensagem {
+            padding: 35px;
+            text-align: center;
+            background: white;
+            color: #777;
+        }
+
+        @media (max-width: 600px) {
+
+            .container {
+                padding: 10px;
+            }
+
+            .cabecalho,
+            .resultado {
+                grid-template-columns: 115px 1fr;
+            }
+
+            #pesquisa {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="titulo">
+        <h1>Pesquisa SIGTAP</h1>
+        <p>Consulte procedimentos por código, CID ou nome.</p>
+    </div>
+
+    <input
+        type="text"
+        id="pesquisa"
+        placeholder="Digite código, CID ou procedimento..."
+        autocomplete="off"
+    >
+
+    <div class="cabecalho">
+        <div>Código</div>
+        <div>Procedimento</div>
+    </div>
+
+    <div id="resultados">
+        <div class="mensagem">
+            Digite algo para pesquisar.
+        </div>
+    </div>
+
+</div>
+
+<script src="dados.js"></script>
+
+<script>
+
+const campoPesquisa = document.getElementById("pesquisa");
+const areaResultados = document.getElementById("resultados");
+
+
+function normalizar(texto) {
+
+    return String(texto)
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .toLowerCase();
+
+}
+
+
+function pesquisar() {
+
+    const termo = normalizar(campoPesquisa.value.trim());
+
+    if (termo === "") {
+
+        areaResultados.innerHTML =
+            '<div class="mensagem">Digite algo para pesquisar.</div>';
+
+        return;
+    }
+
+
+    const encontrados = dadosSIGTAP.filter(item => {
+
+        const codigo = normalizar(item.codigo);
+        const procedimento = normalizar(item.procedimento);
+        const cid = normalizar(item.cid);
+
+        return (
+            codigo.includes(termo) ||
+            procedimento.includes(termo) ||
+            cid.includes(termo)
+        );
+
+    });
+
+
+    if (encontrados.length === 0) {
+
+        areaResultados.innerHTML =
+            '<div class="mensagem">Nenhum procedimento encontrado.</div>';
+
+        return;
+    }
+
+
+    areaResultados.innerHTML = encontrados.map(item => `
+
+        <div class="resultado">
+
+            <div class="codigo">
+                ${item.codigo}
+            </div>
+
+            <div>
+                ${item.procedimento}
+            </div>
+
+        </div>
+
+    `).join("");
+
+}
+
+
+campoPesquisa.addEventListener("input", pesquisar);
+
+if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
+        navigator.serviceWorker.register("./service-worker.js");
+    });
+}
+
+</script>
+
+</body>
+</html>
