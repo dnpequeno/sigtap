@@ -34,6 +34,6 @@ Um script em Python foi utilizado para processar a base original e gerar os dado
 
 Facilitar o acesso às informações da tabela SIGTAP durante atividades profissionais e acadêmicas, oferecendo uma alternativa simples e acessível para consulta em computadores e dispositivos móveis.
 
-## 👩‍💻 Sobre o projet
+## Sobre o projeto
 
 Este projeto faz parte do meu aprendizado em desenvolvimento de aplicações voltadas para a área da saúde, buscando integrar conhecimentos de saúde, gestão e tecnologia.
